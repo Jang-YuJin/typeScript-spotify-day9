@@ -2,6 +2,7 @@ import { Button, styled, Typography } from '@mui/material'
 import React from 'react'
 import useGetCurrentUserProfile from '../../hooks/useGetCurrentUserProfile';
 import { getSpotifyAuthUrl } from '../../utils/auth';
+import useCreatePlaylist from '../../hooks/useCreatePlaylist';
 
 const EmptyContainer = styled('div')({
     backgroundColor: 'rgba(255, 255, 255, 0.05)',
@@ -12,12 +13,13 @@ const EmptyContainer = styled('div')({
 
 const EmptyPlaylist = () => {
   const {data: userProfile} = useGetCurrentUserProfile();
+  const {mutate: createPlaylist} = useCreatePlaylist();
 
   const clickCreatePlaylist = () => {
     if(!userProfile){
       getSpotifyAuthUrl();
     }
-    console.log('click Create Playlist');
+    createPlaylist({name: 'my playlist'});
   };
 
   return (

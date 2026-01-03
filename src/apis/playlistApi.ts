@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GetCurrentUserPlaylistsRequest, GetCurrentUserPlaylistsResponse, GetPlaylistItemsRequest, GetPlaylistItemsResponse, GetPlaylistRequest, Playlist } from "../models/playlist";
+import { CreatePlaylistRequest, GetCurrentUserPlaylistsRequest, GetCurrentUserPlaylistsResponse, GetPlaylistItemsRequest, GetPlaylistItemsResponse, GetPlaylistRequest, Playlist } from "../models/playlist";
 import api from "../utils/api";
 
 export const getCurrentUserPlaylists = async({limit, offset}: GetCurrentUserPlaylistsRequest): Promise<GetCurrentUserPlaylistsResponse> => {
@@ -44,4 +44,20 @@ export const getPlaylistItems = async(params: GetPlaylistItemsRequest): Promise<
         
         throw new Error('Fail to fetch playlist items!');
     }
-}
+};
+
+export const createPlaylist = async(userId: string, params: CreatePlaylistRequest): Promise<Playlist> => {
+    try {
+        const {name, playlistPublic, collaborative, description} = params;
+        const response = await api.post(`/users/${userId}/playlists`, {
+            name,
+            public: playlistPublic,
+            collaborative,
+            description
+        });
+
+        return response.data;
+    } catch (error) {
+        throw new Error('Fail to create playlist!');
+    }
+};

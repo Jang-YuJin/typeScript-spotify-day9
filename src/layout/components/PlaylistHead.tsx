@@ -3,6 +3,7 @@ import React from 'react'
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import useGetCurrentUserProfile from '../../hooks/useGetCurrentUserProfile';
 import { getSpotifyAuthUrl } from '../../utils/auth';
+import useCreatePlaylist from '../../hooks/useCreatePlaylist';
 
 const PlaylistHeader = styled('div')({
   display: 'flex',
@@ -20,12 +21,13 @@ const HeaderContent = styled('div')(({theme}) => ({
 
 const PlaylistHead = () => {
   const {data: userProfile} = useGetCurrentUserProfile();
+  const {mutate: createPlaylist} = useCreatePlaylist();
 
   const clickAddBtn = () => {
     if(!userProfile){
       getSpotifyAuthUrl();
     }
-    console.log('Click + Button');
+    createPlaylist({name: 'my playlist'});
   };
   return (
     <div>
