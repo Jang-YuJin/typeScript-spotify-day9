@@ -27,10 +27,7 @@ const PlaylistHead = () => {
   const [open, setOpen] = useState<boolean>(false);
 
   const clickAddBtn = (name: string) => {
-    if(!userProfile){
-      getSpotifyAuthUrl();
-    }
-
+    
     if(name === undefined || name === null || name === ''){
       return alert('플레이리스트명을 입력하세요!');
     }
@@ -38,7 +35,14 @@ const PlaylistHead = () => {
     createPlaylist({name: name});
   };
 
-  const handleOpen = () => setOpen(true);
+  const handleOpen = () => {
+    if(!userProfile){
+      getSpotifyAuthUrl();
+      return;
+    }
+
+    setOpen(true);
+  }
 
   const handleClose = () => setOpen(false);
 
